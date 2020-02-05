@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Information</title>
+</head>
+<body>
+
+{% if studflag %}
+    <center><h3>Register here...!</h3></center>
+    {{actionmsg}}
+    <br>
+
+    <form action="http://localhost:8000/sections/student/save/" method="post">
+    {% csrf_token %}
+    Student Id :   <input type="text" name="stid" value="{{student.id}}"> <br><br>
+    Student Name :   <input type="text" name="stnm" value="{{student.studName}}"> <br><br>
+    Student Age :   <input type="text" name="stage" value="{{student.studAge}}"> <br><br>
+    Student Fees :   <input type="text" name="stfees" value="{{student.studFees}}"> <br><br>
+    Student Address :   <input type="text" name="stadr" value="{{student.studAddress}}"> <br><br>
+    Student Dept :  <select name="dept">
+                <option value="None">--select--</option>
+                {% for dept in depts %}
+                    <option value="{{dept.id}}">{{dept.deptCode}}</option>
+                {% endfor %}
+    </select><br><br>
+    Select Subjects : <select name="studcrs" multiple>
+                    {% for subj in courselist %}
+                        <option value="{{subj.id}}">{{subj.subjName}}</option>
+                    {% endfor %}
+
+    </select><br><br>
+    <input type="submit"> <br><br>
+    </form>
+
+   {% if students %}
+    <center><h3>List Of Students..!</h3></center>
+    <table border="1">
+        <thead>
+        <th>STUD ID</th>
+        <th>STUD NAME</th>
+        <th>STUD AGE</th>
+        <th>STUD FEES</th>
+        <th>STUD ADDRESS</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for stud in students %}
+        <tbody>
+        <td>{{stud.id}}</td>
+        <td>{{stud.studName}}</td>
+        <td>{{stud.studAge}}</td>
+        <td>{{stud.studFees}}</td>
+        <td>{{stud.studAddress}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/student/edit/{{stud.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/student/delete/{{stud.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endif %}
+
+<hr>
+
+{% if courseflag %}
+
+<center><h3>Add New Course here...!</h3></center>
+
+    {% if actionmsg %}
+    {{actionmsg}}
+    {% endif %}
+    <br>
+
+    <form action="http://localhost:8000/sections/course/save/" method="post">
+    {% csrf_token %}
+    Course Id :   <input type="text" name="crid" value="{{course.id}}"> <br><br>
+    Course Name :   <input type="text" name="crnm" value="{{course.subjName}}"> <br><br>
+    Course Code :   <input type="text" name="crcode" value="{{course.subjCode}}"> <br><br>
+    <input type="submit"> <br><br>
+    </form>
+
+   {% if courses %}
+    <center><h3>List Of Courses..!</h3></center>
+    <table border="1">
+        <thead>
+        <th>Course ID</th>
+        <th>Course NAME</th>
+        <th>Course AGE</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for cr in courses %}
+        <tbody>
+        <td>{{cr.id}}</td>
+        <td>{{cr.subjName}}</td>
+        <td>{{cr.subjCode}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/course/edit/{{cr.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/course/delete/{{cr.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endif %}
+
+<hr>
+
+
+{% if deptflag %}
+
+<center><h3>Dept Info</h3></center>
+
+    {% if actionmsg %}
+    {{actionmsg}}
+    {% endif %}
+    <br>
+
+    <form action="http://localhost:8000/sections/dept/save/" method="post">
+    {% csrf_token %}
+    Dept Id :   <input type="text" name="dpid" value="{{dept.id}}"> <br><br>
+    Dept Name :   <input type="text" name="dpnm" value="{{dept.deptName}}"> <br><br>
+    Dept Code :   <input type="text" name="dpcd" value="{{dept.deptCode}}"> <br><br>
+    <input type="submit"> <br><br>
+    </form>
+
+   {% if depts %}
+    <center><h3>List Of Depts..!</h3></center>
+    <table border="1">
+        <thead>
+        <th>Dept ID</th>
+        <th>Dept NAME</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for dp in depts %}
+        <tbody>
+        <td>{{dp.id}}</td>
+        <td>{{dp.deptName}}</td>
+        <td>{{dp.deptCode}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/dept/edit/{{dp.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/dept/delete/{{dp.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endif %}
+
+</body>
+</html>

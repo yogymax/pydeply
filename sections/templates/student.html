@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}
+Index
+
+{% endblock %}
+{% block head %}
+    <style type="text/css">
+        .important { color: #336699; }
+
+        .alternate tr:nth-child(2n) {
+  background-color: silver;
+}
+
+.alternate tr {
+  background-color: black;
+}
+
+.alternate tr:nth-child(2n):hover, .alternate tr:hover {
+  background-color: green;
+}
+
+
+
+    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+{% endblock %}
+
+<div class="container"> <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" resource="E:\pywrkspce\p8dj\collgeroot\static\scp.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+{% block content %}
+
+{% if studflag %}
+    <center><h3>Register here...!</h3></center>
+    {{actionmsg}}
+    <br>
+<div class="container">
+    <form action="http://localhost:8000/sections/student/save/" method="post">
+    {% csrf_token %}
+    Student Id :   <input type="text" name="stid" value="{{student.id}}"> <br><br>
+    Student Name :   <input type="text" name="stnm" value="{{student.studName}}"> <br><br>
+    Student Age :   <input type="text" name="stage" value="{{student.studAge}}"> <br><br>
+    Student Fees :   <input type="text" name="stfees" value="{{student.studFees}}"> <br><br>
+    Student Address :   <input type="text" name="stadr" value="{{student.studAddress}}"> <br><br>
+    Student Dept :  <select name="dept">
+                <option value="None">--select--</option>
+                {% for dept in depts %}
+                    <option value="{{dept.id}}">{{dept.deptCode}}</option>
+                {% endfor %}
+    </select><br><br>
+    Select Subjects : <select name="studcrs" multiple>
+                    {% for subj in courselist %}
+                        <option value="{{subj.id}}">{{subj.subjName}}</option>
+                    {% endfor %}
+
+    </select><br><br>
+    <input type="submit" class="btn btn-success"> <br><br>
+    </form>
+
+   {% if students %}
+    <center><h3>List Of Students..!</h3></center>
+    <table border="1">
+        <thead>
+        <th>STUD ID</th>
+        <th>STUD NAME</th>
+        <th>STUD AGE</th>
+        <th>STUD FEES</th>
+        <th>STUD ADDRESS</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for stud in students %}
+        <tbody>
+        <td>{{stud.id}}</td>
+        <td>{{stud.studName}}</td>
+        <td>{{stud.studAge}}</td>
+        <td>{{stud.studFees}}</td>
+        <td>{{stud.studAddress}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/student/edit/{{stud.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/student/delete/{{stud.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+{% endif %}
+</div>
+<hr>
+
+{% if courseflag %}
+<div class="container">
+<center><h3>Add New Course here...!</h3></center>
+
+    {% if actionmsg %}
+    {{actionmsg}}
+    {% endif %}
+    <br>
+
+    <form action="http://localhost:8000/sections/course/save/" method="post">
+    {% csrf_token %}
+    Course Id :   <input type="text" name="crid" value="{{course.id}}"> <br><br>
+    Course Name :   <input type="text" name="crnm" value="{{course.subjName}}"> <br><br>
+    Course Code :   <input type="text" name="crcode" value="{{course.subjCode}}"> <br><br>
+    <input type="submit"> <br><br>
+    </form>
+
+   {% if courses %}
+    <center><h3>List Of Courses..!</h3></center>
+    <table border="1">
+        <thead>
+        <th>Course ID</th>
+        <th>Course NAME</th>
+        <th>Course AGE</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for cr in courses %}
+        <tbody>
+        <td>{{cr.id}}</td>
+        <td>{{cr.subjName}}</td>
+        <td>{{cr.subjCode}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/course/edit/{{cr.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/course/delete/{{cr.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+{% endif %}
+
+<hr>
+</div>
+
+{% if deptflag %}
+<div class="container">
+<center><h3>Dept Info</h3></center>
+
+    {% if actionmsg %}
+    {{actionmsg}}
+    {% endif %}
+    <br>
+
+    <form action="http://localhost:8000/sections/dept/save/" method="post">
+    {% csrf_token %}
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <label for="dpid" class="col-sm-2 col-form-label">Dept ID</label>
+    <input type="text" name="dpid" value="{{dept.id}}"> <br><br>
+            </div>
+            <div class="col-sm-10">
+        <label for="dpnm" class="col-sm-2 col-form-label">Dept Name</label>
+    <input type="text" name="dpnm" value="{{dept.deptName}}"> <br><br>
+            </div><div class="col-sm-10">
+            <label for="dpcd" class="col-sm-2 col-form-label">Dept Code</label>
+    <input type="text" name="dpcd" value="{{dept.deptCode}}"> <br><br>
+        </div>
+            <div class="col-sm-10">
+                <label  class="col-sm-2 col-form-label">Dept ID</label>
+    <input type="submit"> <br><br>
+            </div>
+        </div>
+    </form>
+
+   {% if depts %}
+    <center><h3>List Of Depts..!</h3></center>
+    <table border="1" class="table table-striped" >
+        <thead>
+        <th>Dept ID</th>
+        <th>Dept NAME</th>
+        <th>Dept Code</th>
+        <th>ACTION</th>
+        </thead>
+
+        {% for dp in depts %}
+        <tbody >
+        <td>{{dp.id}}</td>
+        <td>{{dp.deptName}}</td>
+        <td>{{dp.deptCode}}</td>
+        <td>
+            <a href="http://localhost:8000/sections/dept/edit/{{dp.id}}">Edit</a>
+            <a href="http://localhost:8000/sections/dept/delete/{{dp.id}}">Delete</a>
+        </td>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
